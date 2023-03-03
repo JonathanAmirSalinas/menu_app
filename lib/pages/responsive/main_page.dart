@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:menu_app/model/providers/cart_provider.dart';
 import 'package:menu_app/widgets/menu_items_widget.dart';
+import 'package:menu_app/widgets/navigation_drawer.dart';
 import 'package:menu_app/widgets/shopping_cart_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -12,8 +13,6 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  final pageController = PageController(viewportFraction: .6);
-
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -33,7 +32,9 @@ class _MainPageState extends State<MainPage> {
   //////////////////////////////////////////////////////////////////////////////
 
   buildSmallMenu(BuildContext context) {
+    final pageController = PageController(viewportFraction: .8);
     return Scaffold(
+        drawer: const NavigationDrawer(),
         endDrawer: const BuildShoppingCart(),
         body: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -144,7 +145,10 @@ class _MainPageState extends State<MainPage> {
                           thickness: 2,
                           endIndent: 50,
                         ),
-                        buildMenu(context)
+                        buildMenuCard(context, "Lunch"),
+                        buildMenuCard(context, "Breakfast"),
+                        buildMenuCard(context, "Snacks"),
+                        buildMenuCard(context, "Drinks"),
                       ],
                     ),
                   ),
@@ -160,7 +164,9 @@ class _MainPageState extends State<MainPage> {
   //////////////////////////////////////////////////////////////////////////////
 
   buildMediumMenu(BuildContext context, double windowSize) {
+    final pageController = PageController(keepPage: true, viewportFraction: .6);
     return Scaffold(
+        drawer: const NavigationDrawer(),
         endDrawer: const BuildShoppingCart(),
         body: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -191,13 +197,21 @@ class _MainPageState extends State<MainPage> {
                       children: [
                         Row(
                           children: [
-                            const Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 24),
-                              child: Text("Title"),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 12),
+                              child: TextButton(
+                                onPressed: () {},
+                                child: const Text("Locations"),
+                              ),
                             ),
-                            const Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 24),
-                              child: Text("Title"),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 24),
+                              child: TextButton(
+                                onPressed: () {},
+                                child: const Text("Menu"),
+                              ),
                             ),
                             Container(
                                 height:
@@ -232,6 +246,10 @@ class _MainPageState extends State<MainPage> {
                           padding: const EdgeInsets.symmetric(horizontal: 16),
                           child: IconButton(
                             onPressed: () {
+                              if (windowSize > 1280) {
+                                Scaffold.of(context).closeEndDrawer();
+                              }
+
                               Scaffold.of(context).openEndDrawer();
                             },
                             icon: const Icon(Icons.shopping_cart_outlined),
@@ -252,39 +270,41 @@ class _MainPageState extends State<MainPage> {
                   child: Padding(
                     padding: const EdgeInsets.all(16),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * .05,
-                        ),
-                        Text(
-                          "Promotion",
-                          style: TextStyle(
-                              fontSize: Theme.of(context)
-                                  .textTheme
-                                  .headlineMedium!
-                                  .fontSize),
-                        ),
-                        const Divider(
-                          thickness: 2,
-                          endIndent: 50,
-                        ),
-                        buildPromotionMenu(context, pageController),
-                        Text(
-                          "Menu",
-                          style: TextStyle(
-                              fontSize: Theme.of(context)
-                                  .textTheme
-                                  .headlineMedium!
-                                  .fontSize),
-                        ),
-                        const Divider(
-                          thickness: 2,
-                          endIndent: 50,
-                        ),
-                        buildMenu(context)
-                      ],
-                    ),
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * .05,
+                          ),
+                          Text(
+                            "Promotion",
+                            style: TextStyle(
+                                fontSize: Theme.of(context)
+                                    .textTheme
+                                    .headlineMedium!
+                                    .fontSize),
+                          ),
+                          const Divider(
+                            thickness: 2,
+                            endIndent: 50,
+                          ),
+                          buildPromotionMenu(context, pageController),
+                          Text(
+                            "Menu",
+                            style: TextStyle(
+                                fontSize: Theme.of(context)
+                                    .textTheme
+                                    .headlineMedium!
+                                    .fontSize),
+                          ),
+                          const Divider(
+                            thickness: 2,
+                            endIndent: 50,
+                          ),
+                          buildMenuCard(context, "Lunch"),
+                          buildMenuCard(context, "Breakfast"),
+                          buildMenuCard(context, "Snacks"),
+                          buildMenuCard(context, "Drinks"),
+                        ]),
                   ),
                 ),
               ),
@@ -298,8 +318,10 @@ class _MainPageState extends State<MainPage> {
   //////////////////////////////////////////////////////////////////////////////
 
   buildLargeMenu(BuildContext context, double windowSize) {
+    final pageController = PageController(viewportFraction: .6);
     CartProvider cartProvider = Provider.of<CartProvider>(context);
     return Scaffold(
+      drawer: const NavigationDrawer(),
       endDrawer: const BuildShoppingCart(),
       appBar: AppBar(
         leading: Builder(builder: (context) {
@@ -323,13 +345,19 @@ class _MainPageState extends State<MainPage> {
               children: [
                 Row(
                   children: [
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 24),
-                      child: Text("Title"),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: TextButton(
+                        onPressed: () {},
+                        child: const Text("Locations"),
+                      ),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 24),
-                      child: Text("Title"),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      child: TextButton(
+                        onPressed: () {},
+                        child: const Text("Menu"),
+                      ),
                     ),
                     Container(
                         height: MediaQuery.of(context).size.height * .05,
@@ -398,7 +426,10 @@ class _MainPageState extends State<MainPage> {
                       thickness: 2,
                       endIndent: 50,
                     ),
-                    buildMenu(context)
+                    buildMenuCard(context, "Lunch"),
+                    buildMenuCard(context, "Breakfast"),
+                    buildMenuCard(context, "Snacks"),
+                    buildMenuCard(context, "Drinks"),
                   ],
                 ),
               ),
@@ -407,65 +438,79 @@ class _MainPageState extends State<MainPage> {
           const VerticalDivider(
             thickness: 1,
           ),
-          Expanded(
-              flex: 1,
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    buildSideMenuHeader(context),
-                    cartProvider.cart.isEmpty
-                        ? Expanded(
-                            child: Column(
-                            children: [
-                              Container(
-                                height:
-                                    MediaQuery.of(context).size.height * .08,
-                                width: MediaQuery.of(context).size.width * .9,
-                                padding: const EdgeInsets.all(5),
-                                margin: const EdgeInsets.all(5),
-                                decoration: const BoxDecoration(
-                                    color: Colors.white54,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(8))),
-                                child: const Align(
-                                    alignment: Alignment.center,
-                                    child: Text("Shopping Cart is Empty")),
-                              ),
-                            ],
-                          ))
-                        : Expanded(
-                            child: Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 4),
-                            child: ListView.builder(
-                              padding: EdgeInsets.zero,
-                              itemCount: cartProvider.cart.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return buildCartItems(context, index);
-                              },
-                            ),
-                          )),
-                    const SizedBox(
-                      height: 2,
-                    ),
-                    // Display Total Price of all item in cart list
-                    cartProvider.cart.isEmpty ? Container() : Container(),
-                    const Divider(
-                      color: Colors.white70,
-                      thickness: 3,
-                      indent: 20,
-                      endIndent: 20,
-                    ),
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      height: MediaQuery.of(context).size.height * .08,
-                      width: MediaQuery.of(context).size.width * .9,
-                      child: buildCheckoutButton(context),
-                    ),
-                  ],
+          // SIDE MENU SHOPPING CART
+
+          SizedBox(
+            width: 350,
+            height: MediaQuery.of(context).size.height,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                buildSideMenuHeader(context),
+                cartProvider.cart.isEmpty
+                    ? Expanded(
+                        child: Column(
+                        children: [
+                          Container(
+                            height: MediaQuery.of(context).size.height * .08,
+                            width: MediaQuery.of(context).size.width * .9,
+                            padding: const EdgeInsets.all(5),
+                            margin: const EdgeInsets.all(5),
+                            decoration: const BoxDecoration(
+                                color: Colors.white54,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8))),
+                            child: const Align(
+                                alignment: Alignment.center,
+                                child: Text("Shopping Cart is Empty")),
+                          ),
+                        ],
+                      ))
+                    : Expanded(
+                        child: Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 4),
+                        child: ListView.builder(
+                          padding: EdgeInsets.zero,
+                          itemCount: cartProvider.cart.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return buildCartItems(context, index);
+                          },
+                        ),
+                      )),
+                const SizedBox(
+                  height: 2,
                 ),
-              ))
+
+                // Display Total Price of all item in cart list
+                cartProvider.cart.isEmpty
+                    ? Container()
+                    : Container(
+                        width: MediaQuery.of(context).size.width * 9,
+                        alignment: Alignment.centerRight,
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Text(
+                          'Total: \$${cartProvider.total.toStringAsFixed(2)}',
+                          style: TextStyle(
+                              fontSize: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge!
+                                  .fontSize),
+                        )),
+                const Divider(
+                  color: Colors.white70,
+                  thickness: 3,
+                  indent: 20,
+                  endIndent: 20,
+                ),
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  height: MediaQuery.of(context).size.height * .08,
+                  width: MediaQuery.of(context).size.width * .9,
+                  child: buildCheckoutButton(context),
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );
