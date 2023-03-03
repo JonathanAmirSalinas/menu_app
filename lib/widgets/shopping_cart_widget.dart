@@ -9,7 +9,7 @@ class BuildShoppingCart extends StatelessWidget {
   Widget build(BuildContext context) {
     CartProvider cartProvider = Provider.of<CartProvider>(context);
     return Drawer(
-      width: MediaQuery.of(context).size.width * .4,
+      width: 350,
       child: SizedBox(
         height: MediaQuery.of(context).size.height,
         child: Column(
@@ -49,14 +49,28 @@ class BuildShoppingCart extends StatelessWidget {
             const SizedBox(
               height: 2,
             ),
-            // Display Total Price of all item in cart list
-            cartProvider.cart.isEmpty ? Container() : Container(),
+
             const Divider(
               color: Colors.white70,
               thickness: 3,
               indent: 20,
               endIndent: 20,
             ),
+
+            // Display Total Price of all item in cart list
+            cartProvider.cart.isEmpty
+                ? Container()
+                : Container(
+                    width: MediaQuery.of(context).size.width * 9,
+                    alignment: Alignment.centerRight,
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Text(
+                      'Total: \$${cartProvider.total.toStringAsFixed(2)}',
+                      style: TextStyle(
+                          fontSize:
+                              Theme.of(context).textTheme.titleLarge!.fontSize),
+                    )),
+
             Container(
               padding: const EdgeInsets.all(10),
               height: MediaQuery.of(context).size.height * .08,
@@ -114,13 +128,14 @@ Widget buildCartItems(BuildContext context, int index) {
           child: Stack(
             children: [
               Align(
+                alignment: Alignment.topLeft,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
                       margin: const EdgeInsets.all(8),
-                      height: MediaQuery.of(context).size.height * .1,
+                      height: MediaQuery.of(context).size.height * .12,
                       width: MediaQuery.of(context).size.height * .16,
                       decoration: const BoxDecoration(color: Colors.black54),
                     ),
@@ -137,7 +152,7 @@ Widget buildCartItems(BuildContext context, int index) {
                           ),
                         ],
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -179,6 +194,15 @@ Widget buildCartItems(BuildContext context, int index) {
                             Icons.remove,
                             color: Colors.blue,
                           )),
+                      const Spacer(),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          '\$${cartProvider.itemCost[index].toStringAsFixed(2)}',
+                          style: const TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.w500),
+                        ),
+                      ),
                     ],
                   )),
             ],
