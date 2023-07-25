@@ -6,7 +6,7 @@ class ItemModel {
   final String menu;
   final double price;
   final String pid;
-  final String productUrl;
+  final String productImage;
 
   const ItemModel(
       {required this.product,
@@ -15,7 +15,7 @@ class ItemModel {
       required this.menu,
       required this.price,
       required this.pid,
-      required this.productUrl});
+      required this.productImage});
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -25,7 +25,7 @@ class ItemModel {
       'menu': menu,
       'price': price,
       'pid': pid,
-      'productUrl': productUrl
+      'productImage': productImage
     };
   }
 
@@ -36,7 +36,7 @@ class ItemModel {
         'menu': menu,
         'price': price,
         'pid': pid,
-        'productUrl': productUrl,
+        'productImage': productImage,
       };
 
   /*static ItemModel dataFromDoc(DocumentSnapshot snap) {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class NavigationDrawer extends StatelessWidget {
-  const NavigationDrawer({Key? key}) : super(key: key);
+class MainNavigationDrawer extends StatelessWidget {
+  const MainNavigationDrawer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -264,10 +264,4 @@ Widget buildNavigationMenuItems(BuildContext context) {
       ],
     ),
   ));
-}
-
-Widget MenuTile(
-  Icon icon,
-) {
-  return const ListTile();
 }
