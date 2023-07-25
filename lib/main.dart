@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:menu_app/model/providers/cart_provider.dart';
+import 'package:menu_app/model/providers/menu_provider.dart';
 import 'package:menu_app/router/app_router.dart';
 import 'package:provider/provider.dart';
 
@@ -7,7 +9,8 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
   runApp(MultiProvider(providers: [
-    ChangeNotifierProvider<CartProvider>(create: (_) => CartProvider())
+    ChangeNotifierProvider<CartProvider>(create: (_) => CartProvider()),
+    ChangeNotifierProvider<MenuProvider>(create: (_) => MenuProvider())
   ], child: const MyApp()));
 }
 

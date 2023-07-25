@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:menu_app/model/Item_model.dart';
+import 'package:menu_app/model/item_model.dart';
 
 class CartProvider with ChangeNotifier {
   List<ItemModel> cart = [];
@@ -8,21 +8,12 @@ class CartProvider with ChangeNotifier {
   double total = 0;
 
   // Adds item to cart and quanity list
-  add(String product, String description, String category, String menu,
-      String productUrl, String pid, double price, String points, String type) {
-    cart.add(ItemModel(
-      product: product,
-      description: description,
-      category: category,
-      menu: menu,
-      price: price,
-      pid: pid,
-      productUrl: productUrl,
-    ));
+  add(ItemModel item) {
+    cart.add(item);
 
     quantity.add(1);
-    itemCost.add(price);
-    total += price;
+    itemCost.add(item.price);
+    total += item.price;
 
     notifyListeners();
   }

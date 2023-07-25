@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:menu_app/model/item_model.dart';
 import 'package:menu_app/model/providers/cart_provider.dart';
+import 'package:menu_app/model/providers/menu_provider.dart';
 import 'package:menu_app/widgets/menu_items_widget.dart';
 import 'package:menu_app/widgets/navigation_drawer.dart';
 import 'package:menu_app/widgets/shopping_cart_widget.dart';
@@ -13,6 +15,11 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -32,11 +39,13 @@ class _MainPageState extends State<MainPage> {
   //////////////////////////////////////////////////////////////////////////////
 
   buildSmallMenu(BuildContext context) {
-    final pageController = PageController(viewportFraction: .8);
+    MenuProvider menuProvider = Provider.of<MenuProvider>(context);
+    final pageController = PageController(viewportFraction: .85);
     return Scaffold(
-        drawer: const NavigationDrawer(),
+        drawer: const MainNavigationDrawer(),
         endDrawer: const BuildShoppingCart(),
         body: NestedScrollView(
+          physics: const BouncingScrollPhysics(),
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
               SliverAppBar(
@@ -50,54 +59,34 @@ class _MainPageState extends State<MainPage> {
                     },
                   );
                 }),
-                title: Text(
-                  "Small",
-                  style: TextStyle(
-                      fontSize:
-                          Theme.of(context).textTheme.headlineSmall!.fontSize),
-                ),
+                title: Container(
+                    height: 45,
+                    width: double.infinity,
+                    margin: const EdgeInsets.all(4),
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    alignment: Alignment.centerLeft,
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).focusColor,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(8))),
+                    // TEXTFIELD
+                    child: const TextField(
+                      decoration: InputDecoration.collapsed(
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                        ),
+                        hintText: "Search",
+                      ),
+                    )),
 
                 actions: [
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                                height: MediaQuery.of(context).size.height * .1,
-                                width: MediaQuery.of(context).size.width * .3,
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8),
-                                decoration: BoxDecoration(
-                                    color: Theme.of(context).focusColor,
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(8))),
-                                // TEXTFIELD
-                                child: const TextField(
-                                  decoration: InputDecoration(
-                                      border: OutlineInputBorder(
-                                        borderSide: BorderSide.none,
-                                      ),
-                                      isDense: true,
-                                      hintText: "Search...",
-                                      icon: Icon(
-                                        Icons.search,
-                                        size: 24,
-                                      )),
-                                )),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: IconButton(
                       onPressed: () {
                         Scaffold.of(context).openEndDrawer();
                       },
+                      constraints: const BoxConstraints(),
                       icon: const Icon(Icons.shopping_cart_outlined),
                       splashRadius: 20,
                     ),
@@ -117,9 +106,6 @@ class _MainPageState extends State<MainPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * .05,
-                        ),
                         Text(
                           "Promotion",
                           style: TextStyle(
@@ -145,10 +131,26 @@ class _MainPageState extends State<MainPage> {
                           thickness: 2,
                           endIndent: 50,
                         ),
-                        buildMenuCard(context, "Lunch"),
-                        buildMenuCard(context, "Breakfast"),
-                        buildMenuCard(context, "Snacks"),
-                        buildMenuCard(context, "Drinks"),
+                        buildMenuCard(
+                            context,
+                            "Lunch",
+                            'lib/assets/lunch_menu_main.jpg',
+                            menuProvider.lunchMenu),
+                        buildMenuCard(
+                            context,
+                            "Breakfast",
+                            'lib/assets/breakfast_menu_main.jpg',
+                            menuProvider.breakfastMenu),
+                        buildMenuCard(
+                            context,
+                            "Snacks",
+                            'lib/assets/snacks_menu_main.jpg',
+                            menuProvider.snacksMenu),
+                        buildMenuCard(
+                            context,
+                            "Drinks",
+                            'lib/assets/drinks_menu_main.jpg',
+                            menuProvider.drinksMenu),
                       ],
                     ),
                   ),
@@ -164,11 +166,14 @@ class _MainPageState extends State<MainPage> {
   //////////////////////////////////////////////////////////////////////////////
 
   buildMediumMenu(BuildContext context, double windowSize) {
-    final pageController = PageController(keepPage: true, viewportFraction: .6);
+    MenuProvider menuProvider = Provider.of<MenuProvider>(context);
+    final pageController =
+        PageController(keepPage: true, viewportFraction: .85);
     return Scaffold(
-        drawer: const NavigationDrawer(),
+        drawer: const MainNavigationDrawer(),
         endDrawer: const BuildShoppingCart(),
         body: NestedScrollView(
+          physics: const BouncingScrollPhysics(),
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
               SliverAppBar(
@@ -300,10 +305,26 @@ class _MainPageState extends State<MainPage> {
                             thickness: 2,
                             endIndent: 50,
                           ),
-                          buildMenuCard(context, "Lunch"),
-                          buildMenuCard(context, "Breakfast"),
-                          buildMenuCard(context, "Snacks"),
-                          buildMenuCard(context, "Drinks"),
+                          buildMenuCard(
+                              context,
+                              "Lunch",
+                              'lib/assets/lunch_menu_main.jpg',
+                              menuProvider.lunchMenu),
+                          buildMenuCard(
+                              context,
+                              "Breakfast",
+                              'lib/assets/breakfast_menu_main.jpg',
+                              menuProvider.breakfastMenu),
+                          buildMenuCard(
+                              context,
+                              "Snacks",
+                              'lib/assets/snacks_menu_main.jpg',
+                              menuProvider.snacksMenu),
+                          buildMenuCard(
+                              context,
+                              "Drinks",
+                              'lib/assets/drinks_menu_main.jpg',
+                              menuProvider.drinksMenu),
                         ]),
                   ),
                 ),
@@ -318,10 +339,11 @@ class _MainPageState extends State<MainPage> {
   //////////////////////////////////////////////////////////////////////////////
 
   buildLargeMenu(BuildContext context, double windowSize) {
+    MenuProvider menuProvider = Provider.of<MenuProvider>(context);
     final pageController = PageController(viewportFraction: .6);
     CartProvider cartProvider = Provider.of<CartProvider>(context);
     return Scaffold(
-      drawer: const NavigationDrawer(),
+      drawer: const MainNavigationDrawer(),
       endDrawer: const BuildShoppingCart(),
       appBar: AppBar(
         leading: Builder(builder: (context) {
@@ -426,10 +448,26 @@ class _MainPageState extends State<MainPage> {
                       thickness: 2,
                       endIndent: 50,
                     ),
-                    buildMenuCard(context, "Lunch"),
-                    buildMenuCard(context, "Breakfast"),
-                    buildMenuCard(context, "Snacks"),
-                    buildMenuCard(context, "Drinks"),
+                    buildMenuCard(
+                        context,
+                        "Lunch",
+                        'lib/assets/lunch_menu_main.jpg',
+                        menuProvider.lunchMenu),
+                    buildMenuCard(
+                        context,
+                        "Breakfast",
+                        'lib/assets/breakfast_menu_main.jpg',
+                        menuProvider.breakfastMenu),
+                    buildMenuCard(
+                        context,
+                        "Snacks",
+                        'lib/assets/snacks_menu_main.jpg',
+                        menuProvider.snacksMenu),
+                    buildMenuCard(
+                        context,
+                        "Drinks",
+                        'lib/assets/drinks_menu_main.jpg',
+                        menuProvider.drinksMenu),
                   ],
                 ),
               ),
