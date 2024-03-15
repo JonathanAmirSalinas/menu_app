@@ -17,7 +17,7 @@ buildPromotionMenu(BuildContext context, PageController controller) {
           },
         ),
         child: SizedBox(
-          height: 420,
+          height: 400,
           width: MediaQuery.of(context).size.width * .9,
           child: PageView.builder(
               controller: controller,
@@ -41,13 +41,13 @@ buildPromotionMenuItems(BuildContext context, ItemModel item) {
         children: [
           Card(
             child: SizedBox(
-              height: 400,
+              height: 380,
               width: MediaQuery.of(context).size.width * .8,
               child: Stack(
                 children: [
                   Align(
                     child: Container(
-                      height: 400,
+                      height: 380,
                       width: MediaQuery.of(context).size.width * .8,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
@@ -352,6 +352,7 @@ void showMenuItemInfo(BuildContext context, ItemModel item) {
                                     const SnackBar(
                                         content:
                                             Text("Item was added to Cart")));
+                                Navigator.of(context).pop();
                               },
                               icon: const Icon(
                                   Icons.shopping_cart_checkout_rounded),

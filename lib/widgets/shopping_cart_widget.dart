@@ -17,6 +17,7 @@ class BuildShoppingCart extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             buildSideMenuHeader(context),
+            // Cart Item List /////////////////////////////////////////////////
             cartProvider.cart.isEmpty
                 ? Expanded(
                     child: Column(
@@ -66,7 +67,7 @@ class BuildShoppingCart extends StatelessWidget {
                     alignment: Alignment.centerRight,
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Text(
-                      'Total: \$${cartProvider.total.toStringAsFixed(2)}',
+                      'Cart Total: \$${cartProvider.total.toStringAsFixed(2)}',
                       style: TextStyle(
                           fontSize:
                               Theme.of(context).textTheme.titleLarge!.fontSize),
@@ -85,6 +86,7 @@ class BuildShoppingCart extends StatelessWidget {
   }
 }
 
+// Cart Header
 Widget buildSideMenuHeader(BuildContext context) {
   return Container(
     width: MediaQuery.of(context).size.width,
@@ -119,6 +121,7 @@ Widget buildSideMenuHeader(BuildContext context) {
   );
 }
 
+// Cart Item
 Widget buildCartItems(BuildContext context, int index) {
   CartProvider cartProvider = Provider.of<CartProvider>(context);
   return Column(
@@ -220,24 +223,45 @@ Widget buildCartItems(BuildContext context, int index) {
   );
 }
 
+// Check Out Button
 Widget buildCheckoutButton(BuildContext context) {
   CartProvider cartProvider = Provider.of(context);
   return cartProvider.cart.isNotEmpty
-      ? ElevatedButton(
+      ? ElevatedButton.icon(
           onPressed: () {
+            Scaffold.of(context).closeEndDrawer();
             context.go('/checkout');
           },
-          child: const Text("Checkout"),
+          style: ButtonStyle(
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18.0),
+                  side: const BorderSide(color: Colors.black)),
+            ),
+          ),
+          icon: const Icon(Icons.shopping_cart_checkout_rounded),
+          label: const Text("Checkout"),
         )
-      : ElevatedButton(
+      : ElevatedButton.icon(
           onPressed: () {
             ScaffoldMessenger.of(context)
                 .showSnackBar(const SnackBar(content: Text("Cart is Empty")));
             Scaffold.of(context).closeEndDrawer();
           },
           style: ButtonStyle(
-              backgroundColor:
-                  MaterialStatePropertyAll(Theme.of(context).disabledColor)),
-          child: const Text("Checkout"),
+            backgroundColor:
+                MaterialStatePropertyAll(Theme.of(context).disabledColor),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18.0),
+              ),
+            ),
+          ),
+          icon: const Icon(Icons.shopping_cart_checkout_rounded),
+          label: Text(
+            "Checkout",
+            style: TextStyle(
+                fontSize: Theme.of(context).textTheme.titleMedium!.fontSize),
+          ),
         );
 }

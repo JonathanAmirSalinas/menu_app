@@ -9,6 +9,7 @@ class CheckoutPage extends StatefulWidget {
   State<CheckoutPage> createState() => _CheckoutPageState();
 }
 
+// TODO: CartProvider clears on refresh/restart
 class _CheckoutPageState extends State<CheckoutPage> {
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
@@ -18,50 +19,59 @@ class _CheckoutPageState extends State<CheckoutPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: GestureDetector(
-        onTap: () {
-          //Focus.of(context).unfocus();
-        },
-        child: Scaffold(
-          appBar: AppBar(
-            title: const Text("Checkout"),
-          ),
-          body: SingleChildScrollView(
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Customer Information",
-                      style: TextStyle(
-                          fontSize: Theme.of(context)
-                              .textTheme
-                              .headlineSmall!
-                              .fontSize),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          buildCheckoutTextField(
-                              "First Name", firstNameController, 'text'),
-                          buildCheckoutTextField(
-                              "Last Name", lastNameController, 'text'),
-                          buildCheckoutTextField(
-                              "Email Name", emailController, 'email'),
-                          buildCheckoutTextField(
-                              "Phone Number", phoneNumberController, 'number'),
-                        ],
+      child: Center(
+        child: GestureDetector(
+          onTap: () {
+            //Focus.of(context).unfocus();
+          },
+          child: Scaffold(
+            appBar: AppBar(
+              title: const Text("Checkout"),
+            ),
+            body: SingleChildScrollView(
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Customer Information",
+                        style: TextStyle(
+                            fontSize: Theme.of(context)
+                                .textTheme
+                                .headlineSmall!
+                                .fontSize),
                       ),
-                    ),
-                    buildCheckoutReviewOrder(),
-                    buildCompleteOrderButton(),
-                    const SizedBox(
-                      height: 35,
-                    ),
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            buildCheckoutTextField(
+                                "First Name", firstNameController, 'text'),
+                            buildCheckoutTextField(
+                                "Last Name", lastNameController, 'text'),
+                            buildCheckoutTextField(
+                                "Email Name", emailController, 'email'),
+                            buildCheckoutTextField("Phone Number",
+                                phoneNumberController, 'number'),
+                          ],
+                        ),
+                      ),
+                      buildCheckoutReviewOrder(),
+                      const Divider(
+                        height: 2,
+                        thickness: 2,
+                      ),
+                      Container(
+                        alignment: Alignment.centerRight,
+                        child: buildCompleteOrderButton(),
+                      ),
+                      const SizedBox(
+                        height: 35,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -86,26 +96,27 @@ class _CheckoutPageState extends State<CheckoutPage> {
           ),
         ),
         Container(
-            height: MediaQuery.of(context).size.height * .05,
-            width: MediaQuery.of(context).size.width * .8,
-            alignment: Alignment.centerLeft,
-            decoration: BoxDecoration(
-                color: Theme.of(context).focusColor,
-                borderRadius: const BorderRadius.all(Radius.circular(8))),
-            // TEXTFORMFIELD
-            child: TextFormField(
-                controller: controller,
-                keyboardType: keyboardType == 'text'
-                    ? TextInputType.name
-                    : keyboardType == 'email'
-                        ? TextInputType.emailAddress
-                        : TextInputType.phone,
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(
-                    borderSide: BorderSide.none,
-                  ),
-                  hintText: label,
-                ))),
+          height: MediaQuery.of(context).size.height * .05,
+          width: MediaQuery.of(context).size.width * .8,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+              color: Theme.of(context).focusColor,
+              borderRadius: const BorderRadius.all(Radius.circular(8))),
+          // TEXTFORMFIELD
+          child: TextFormField(
+              controller: controller,
+              keyboardType: keyboardType == 'text'
+                  ? TextInputType.name
+                  : keyboardType == 'email'
+                      ? TextInputType.emailAddress
+                      : TextInputType.number,
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                ),
+                hintText: label,
+              )),
+        ),
       ],
     );
   }
@@ -301,22 +312,67 @@ class _CheckoutPageState extends State<CheckoutPage> {
   }
 
   buildCompleteOrderButton() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: ElevatedButton.icon(
-          onPressed: () {},
-          icon: const Icon(Icons.receipt),
-          label: Container(
-            alignment: Alignment.center,
-            height: MediaQuery.of(context).size.height * .05,
-            width: 300,
-            child: Text(
-              "Complete Order",
-              style: TextStyle(
-                  fontSize:
-                      Theme.of(context).textTheme.headlineSmall!.fontSize),
-            ),
-          )),
-    );
+    CartProvider cartProvider = Provider.of<CartProvider>(context);
+    return cartProvider.cart.isNotEmpty
+        ? Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton.icon(
+                onPressed: () {
+                  cartProvider.clear();
+                  Navigator.pop(context);
+                },
+                style: ButtonStyle(
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                        side: const BorderSide(color: Colors.black)),
+                  ),
+                ),
+                icon: const Icon(Icons.receipt),
+                label: Container(
+                  alignment: Alignment.center,
+                  height: MediaQuery.of(context).size.height * .05,
+                  width: 300,
+                  child: Text(
+                    "Complete Order",
+                    style: TextStyle(
+                        fontSize: Theme.of(context)
+                            .textTheme
+                            .headlineSmall!
+                            .fontSize),
+                  ),
+                )),
+          )
+        : Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton.icon(
+                onPressed: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("Cart is Empty")));
+                },
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStatePropertyAll(Theme.of(context).disabledColor),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18.0),
+                    ),
+                  ),
+                ),
+                icon: const Icon(Icons.receipt),
+                label: Container(
+                  alignment: Alignment.center,
+                  height: MediaQuery.of(context).size.height * .05,
+                  width: 300,
+                  child: Text(
+                    "Complete Order",
+                    style: TextStyle(
+                        fontSize: Theme.of(context)
+                            .textTheme
+                            .headlineSmall!
+                            .fontSize),
+                  ),
+                )),
+          );
   }
 }

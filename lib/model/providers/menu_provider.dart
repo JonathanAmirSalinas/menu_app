@@ -24,7 +24,7 @@ class MenuProvider with ChangeNotifier {
     const ItemModel(
         product: "Burger and Fries",
         description:
-            'Beef Burger with chesse, lettuce, tomato and pickles. Comes with a 16 oz beverage of choice and a side of fries.',
+            '6 oz, beef burger with chesse, lettuce, tomato and pickles. Comes with a 16 oz beverage of choice and a side of freashly made french fries.',
         category: 'Lunch',
         menu: 'Lunch',
         price: 11.99,
@@ -32,7 +32,8 @@ class MenuProvider with ChangeNotifier {
         productImage: 'lib/assets/burger_and_fries.jpg'),
     const ItemModel(
         product: "Fish and Fries",
-        description: 'Fried Fish and a side of fries.',
+        description:
+            'Freash and battered fried fish served with a side of our seasoned french fries.',
         category: 'Lunch',
         menu: 'Lunch',
         price: 9.99,
@@ -42,7 +43,8 @@ class MenuProvider with ChangeNotifier {
   List<ItemModel> breakfastMenu = [
     const ItemModel(
         product: "Blueberry Pancakes",
-        description: '4 fluffy blueberry pancakes.',
+        description:
+            '4 delicious fluffy blueberry pancakes topped with whipped cream and syrup.',
         category: 'Breakfast',
         menu: 'Breakfast',
         price: 10.99,
@@ -50,7 +52,8 @@ class MenuProvider with ChangeNotifier {
         productImage: 'lib/assets/blueberry_pancakes.jpg'),
     const ItemModel(
         product: "Cinnamon Rolls",
-        description: '2 freashly baked cinnamon rolls',
+        description:
+            '2 freashly baked cinnamon rolls made to perfction for that crispy and soft texture.',
         category: 'Breakfast',
         menu: 'Breakfast',
         price: 7.99,
@@ -60,7 +63,7 @@ class MenuProvider with ChangeNotifier {
   List<ItemModel> snacksMenu = [
     const ItemModel(
         product: "Blueberry Muffins",
-        description: '2 blueberry muffins',
+        description: '2 soft blueberry muffins made fresh.',
         category: 'Snacks',
         menu: 'Snacks',
         price: 2.99,
@@ -68,7 +71,8 @@ class MenuProvider with ChangeNotifier {
         productImage: 'lib/assets/blueberry_muffins.jpg'),
     const ItemModel(
         product: "Churros",
-        description: '2 churros',
+        description:
+            '2 freshly fried 8 in. Cinnamon Churros. Includes 1 chooice of a dipping sauce: Honey Butter, Chocolate, or Strawberry',
         category: 'Snacks',
         menu: 'Snacks',
         price: 1.99,
@@ -76,7 +80,7 @@ class MenuProvider with ChangeNotifier {
         productImage: 'lib/assets/churros.jpg'),
     const ItemModel(
         product: "Chocolate Muffins",
-        description: '2 chocolate muffins',
+        description: '2 delicious and rice chocolate muffins',
         category: 'Snacks',
         menu: 'Snacks',
         price: 3.99,
@@ -86,7 +90,7 @@ class MenuProvider with ChangeNotifier {
   List<ItemModel> drinksMenu = [
     const ItemModel(
         product: "Lemonade",
-        description: '16oz Lemonade',
+        description: '16oz Sweet Lemonade',
         category: 'Drinks',
         menu: 'Drinks',
         price: 2.99,
