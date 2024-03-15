@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:menu_app/model/item_model.dart';
 import 'package:menu_app/model/providers/cart_provider.dart';
 import 'package:menu_app/model/providers/menu_provider.dart';
 import 'package:menu_app/widgets/menu_items_widget.dart';
@@ -25,7 +24,7 @@ class _MainPageState extends State<MainPage> {
     return LayoutBuilder(
       builder: (context, constraints) {
         return SafeArea(
-            child: constraints.maxWidth < 500 || constraints.maxWidth == 500
+            child: constraints.maxWidth < 720 || constraints.maxWidth == 720
                 ? buildSmallMenu(context)
                 : constraints.maxWidth > 1280
                     ? buildLargeMenu(context, constraints.maxWidth)
@@ -51,6 +50,7 @@ class _MainPageState extends State<MainPage> {
               SliverAppBar(
                 pinned: true,
                 stretch: true,
+                backgroundColor: Colors.black,
                 leading: Builder(builder: (context) {
                   return IconButton(
                     icon: const Icon(Icons.dehaze_rounded),
@@ -60,28 +60,28 @@ class _MainPageState extends State<MainPage> {
                   );
                 }),
                 title: Container(
-                    height: 45,
-                    width: double.infinity,
-                    margin: const EdgeInsets.all(4),
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    alignment: Alignment.centerLeft,
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).focusColor,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(8))),
-                    // TEXTFIELD
-                    child: const TextField(
-                      decoration: InputDecoration.collapsed(
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide.none,
+                  height: 56,
+                  margin: const EdgeInsets.all(16),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Flexible(
+                          child: Container(
+                            margin: const EdgeInsets.all(8),
+                            child: TextFormField(
+                              decoration: const InputDecoration(
+                                isDense: true,
+                                labelText: 'Search...',
+                                border: OutlineInputBorder(),
+                              ),
+                            ),
+                          ),
                         ),
-                        hintText: "Search",
-                      ),
-                    )),
-
+                      ]),
+                ),
                 actions: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    padding: const EdgeInsets.fromLTRB(0, 0, 12, 0),
                     child: IconButton(
                       onPressed: () {
                         Scaffold.of(context).openEndDrawer();
@@ -179,6 +179,7 @@ class _MainPageState extends State<MainPage> {
               SliverAppBar(
                 pinned: true,
                 stretch: true,
+                backgroundColor: Colors.black,
                 leading: Builder(builder: (context) {
                   return IconButton(
                     icon: const Icon(Icons.dehaze_rounded),
@@ -193,7 +194,6 @@ class _MainPageState extends State<MainPage> {
                       fontSize:
                           Theme.of(context).textTheme.headlineSmall!.fontSize),
                 ),
-
                 actions: [
                   Container(
                     padding: const EdgeInsets.all(8),
@@ -204,7 +204,7 @@ class _MainPageState extends State<MainPage> {
                           children: [
                             Padding(
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 12),
+                                  const EdgeInsets.symmetric(horizontal: 8),
                               child: TextButton(
                                 onPressed: () {},
                                 child: const Text("Locations"),
@@ -218,29 +218,23 @@ class _MainPageState extends State<MainPage> {
                                 child: const Text("Menu"),
                               ),
                             ),
-                            Container(
-                                height:
-                                    MediaQuery.of(context).size.height * .05,
-                                width: MediaQuery.of(context).size.width * .3,
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 24),
-                                decoration: BoxDecoration(
-                                    color: Theme.of(context).focusColor,
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(8))),
-                                // TEXTFIELD
-                                child: const TextField(
-                                  decoration: InputDecoration(
-                                      border: OutlineInputBorder(
-                                        borderSide: BorderSide.none,
+                            SizedBox(
+                              height: AppBar().preferredSize.height,
+                              width: MediaQuery.of(context).size.width * .3,
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Flexible(
+                                      child: TextFormField(
+                                        decoration: const InputDecoration(
+                                          isDense: true,
+                                          labelText: 'Search...',
+                                          border: OutlineInputBorder(),
+                                        ),
                                       ),
-                                      isDense: true,
-                                      hintText: "Search...",
-                                      icon: Icon(
-                                        Icons.search,
-                                        size: 24,
-                                      )),
-                                )),
+                                    ),
+                                  ]),
+                            ),
                           ],
                         ),
                       ],
@@ -325,6 +319,14 @@ class _MainPageState extends State<MainPage> {
                               "Drinks",
                               'lib/assets/drinks_menu_main.jpg',
                               menuProvider.drinksMenu),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 8.0),
+                            child: Divider(
+                              height: 2,
+                              thickness: 2,
+                            ),
+                          ),
+                          buildAppBottomInfo()
                         ]),
                   ),
                 ),
@@ -346,6 +348,7 @@ class _MainPageState extends State<MainPage> {
       drawer: const MainNavigationDrawer(),
       endDrawer: const BuildShoppingCart(),
       appBar: AppBar(
+        backgroundColor: Colors.black,
         leading: Builder(builder: (context) {
           return IconButton(
             icon: const Icon(Icons.dehaze_rounded),
@@ -381,27 +384,23 @@ class _MainPageState extends State<MainPage> {
                         child: const Text("Menu"),
                       ),
                     ),
-                    Container(
-                        height: MediaQuery.of(context).size.height * .05,
-                        width: MediaQuery.of(context).size.width * .3,
-                        padding: const EdgeInsets.symmetric(horizontal: 24),
-                        decoration: BoxDecoration(
-                            color: Theme.of(context).focusColor,
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(8))),
-                        // TEXTFIELD
-                        child: const TextField(
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
+                    SizedBox(
+                      height: AppBar().preferredSize.height,
+                      width: MediaQuery.of(context).size.width * .3,
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Flexible(
+                              child: TextFormField(
+                                decoration: const InputDecoration(
+                                  isDense: true,
+                                  labelText: 'Search...',
+                                  border: OutlineInputBorder(),
+                                ),
                               ),
-                              isDense: true,
-                              hintText: "Search...",
-                              icon: Icon(
-                                Icons.search,
-                                size: 24,
-                              )),
-                        )),
+                            ),
+                          ]),
+                    ),
                   ],
                 ),
               ],
@@ -416,7 +415,8 @@ class _MainPageState extends State<MainPage> {
             flex: 4,
             child: SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * .05),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -468,6 +468,14 @@ class _MainPageState extends State<MainPage> {
                         "Drinks",
                         'lib/assets/drinks_menu_main.jpg',
                         menuProvider.drinksMenu),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8.0),
+                      child: Divider(
+                        height: 2,
+                        thickness: 2,
+                      ),
+                    ),
+                    buildAppBottomInfo()
                   ],
                 ),
               ),
@@ -527,7 +535,7 @@ class _MainPageState extends State<MainPage> {
                         alignment: Alignment.centerRight,
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: Text(
-                          'Total: \$${cartProvider.total.toStringAsFixed(2)}',
+                          ' Cart Total: \$${cartProvider.total.toStringAsFixed(2)}',
                           style: TextStyle(
                               fontSize: Theme.of(context)
                                   .textTheme
@@ -545,6 +553,47 @@ class _MainPageState extends State<MainPage> {
                   height: MediaQuery.of(context).size.height * .08,
                   width: MediaQuery.of(context).size.width * .9,
                   child: buildCheckoutButton(context),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  // Bottom Menu App Info
+  buildAppBottomInfo() {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            "Food delivery apps are third-party delivery services hosted on mobile applications that restaurants or retailers partner with to showcase their menu and food offerings, allowing customers to order food and get it delivered to their doorstep.",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: Theme.of(context).textTheme.titleMedium!.fontSize),
+          ),
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 24.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Text("Follow us at: "),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Icon(
+                    Icons.facebook_rounded,
+                    color: Colors.blueAccent,
+                  ),
+                ),
+                Icon(
+                  Icons.tiktok_rounded,
+                  color: Colors.purpleAccent,
                 ),
               ],
             ),

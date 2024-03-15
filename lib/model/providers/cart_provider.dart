@@ -44,7 +44,15 @@ class CartProvider with ChangeNotifier {
       itemCost[index] -= cart[index].price;
       total -= cart[index].price;
     }
+    notifyListeners();
+  }
 
+  // Clears item off or user's cart
+  clear() {
+    cart.clear();
+    quantity.clear();
+    itemCost.clear();
+    total = 0;
     notifyListeners();
   }
 }
